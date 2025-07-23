@@ -96,6 +96,48 @@ button[title]:hover {
   border-bottom: none;
 }
 
+.login-container {
+  max-width: 340px;
+  margin: 60px auto 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  padding: 28px 20px 20px 20px;
+  text-align: center;
+}
+.login-container h2 {
+  margin-bottom: 18px;
+  color: #2d3a4b;
+}
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#loginForm input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 1em;
+}
+#loginForm button {
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 0;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#loginForm button:hover {
+  background: #2563eb;
+}
+#loginMensagem {
+  min-height: 24px;
+  margin-top: 10px;
+}
+
 @media (max-width: 600px) {
   .container {
     padding: 12px 4px;

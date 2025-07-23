@@ -6,7 +6,16 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
+  <div class="login-container" id="loginContainer">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="text" id="loginUsuario" placeholder="Usuário" required autocomplete="username">
+      <input type="password" id="loginSenha" placeholder="Senha" required autocomplete="current-password">
+      <button type="submit">Entrar</button>
+    </form>
+    <div class="mensagem" id="loginMensagem"></div>
+  </div>
+  <div class="container" id="mainContainer" style="display:none;">
     <h1>Gerador de Códigos</h1>
     <div class="info-codigos">
       <div>

@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.error("Erro ao gerar código:", error);
       mostrarMensagem('Erro ao gerar o código.', 'erro');
     } finally {
-      setTimeout(() => { btnGerar.disabled = false; }, 2000);
+      setTimeout(() => { btnGerar.disabled = false; }, 4000);
     }
   });
 
@@ -203,4 +203,54 @@ document.addEventListener('DOMContentLoaded', function() {
     await buscarUltimoCodigo();
     await atualizarHistorico();
   })();
+
+  // --- LOGIN ESTÁTICO ---
+  const USUARIO_FIXO = 'igor';
+  const SENHA_FIXA = 'Exit9090';
+
+  const loginContainer = document.getElementById('loginContainer');
+  const mainContainer = document.getElementById('mainContainer');
+  const loginForm = document.getElementById('loginForm');
+  const loginMensagem = document.getElementById('loginMensagem');
+
+  function mostrarMain() {
+    loginContainer.style.display = 'none';
+    mainContainer.style.display = '';
+  }
+  function mostrarLogin() {
+    loginContainer.style.display = '';
+    mainContainer.style.display = 'none';
+  }
+
+  function estaLogado() {
+    return localStorage.getItem('logadoFinanceiro') === 'sim';
+  }
+
+  function fazerLogout() {
+    localStorage.removeItem('logadoFinanceiro');
+    mostrarLogin();
+  }
+
+  if (estaLogado()) {
+    mostrarMain();
+  } else {
+    mostrarLogin();
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const usuario = document.getElementById('loginUsuario').value;
+      const senha = document.getElementById('loginSenha').value;
+      if (usuario === USUARIO_FIXO && senha === SENHA_FIXA) {
+        localStorage.setItem('logadoFinanceiro', 'sim');
+        loginMensagem.textContent = 'Login realizado com sucesso!';
+        loginMensagem.style.color = '#16a34a';
+        setTimeout(() => { mostrarMain(); loginMensagem.textContent = ''; }, 2000);
+      } else {
+        loginMensagem.textContent = 'Usuário ou senha inválidos!';
+        loginMensagem.style.color = '#dc2626';
+      }
+    });
+  }
 });
