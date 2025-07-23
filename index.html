@@ -8,10 +8,30 @@
 <body>
   <div class="container">
     <h1>Gerador de Códigos</h1>
-    <button id="gerarBtn">Gerar Próximo Código</button>
-    <p id="resultado"></p>
+    <div class="info-codigos">
+      <div>
+        <strong>Último código:</strong> <span id="ultimoCodigo">Carregando...</span>
+        <button id="copiarUltimo" title="Copiar último código">📋</button>
+      </div>
+      <div>
+        <strong>Próximo código:</strong> <span id="proximoCodigo">Carregando...</span>
+        <button id="copiarProximo" title="Copiar próximo código">📋</button>
+      </div>
+    </div>
+    <div class="botoes">
+      <button id="gerarBtn">Gerar Próximo Código</button>
+      <button id="resetarBtn">Resetar Sequência</button>
+    </div>
+    <div class="mensagem" id="mensagem"></div>
+    <h2>Histórico dos Códigos</h2>
+    <div class="historico" id="historicoCodigos"></div>
   </div>
 
-  <script type="module" src="script.js"></script>
+  <!-- Firebase v9 compat (versão para navegador) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  
+  <!-- Script principal -->
+  <script src="script.js"></script>
 </body>
 </html>

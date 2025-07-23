@@ -1,31 +1,110 @@
+/* Reset básico */
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f4f6fb;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-  background-color: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px #ccc;
+  max-width: 500px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  padding: 32px 24px 24px 24px;
+}
+
+h1 {
   text-align: center;
+  color: #2d3a4b;
+  margin-bottom: 24px;
+}
+
+.info-codigos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.info-codigos div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1em;
+}
+
+.botoes {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 18px;
 }
 
 button {
-  padding: 12px 25px;
-  background-color: #28a745;
+  background: #3b82f6;
+  color: #fff;
   border: none;
-  color: white;
-  font-weight: bold;
-  border-radius: 5px;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1em;
   cursor: pointer;
-  font-size: 16px;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #2563eb;
+}
+button[title] {
+  padding: 4px 10px;
+  font-size: 1.1em;
+  background: #e5e7eb;
+  color: #222;
+  border: 1px solid #cbd5e1;
+  margin-left: 4px;
+}
+button[title]:hover {
+  background: #dbeafe;
 }
 
-button:hover {
-  background-color: #218838;
+.mensagem {
+  min-height: 24px;
+  text-align: center;
+  color: #2563eb;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.historico {
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 12px;
+  max-height: 180px;
+  overflow-y: auto;
+  font-size: 0.98em;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+.historico ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.historico li {
+  padding: 4px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+.historico li:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 12px 4px;
+  }
+  .info-codigos {
+    font-size: 0.98em;
+  }
+  .botoes button {
+    font-size: 0.95em;
+    padding: 7px 10px;
+  }
 }
