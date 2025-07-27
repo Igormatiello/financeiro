@@ -50,19 +50,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Função para buscar último código
   async function buscarUltimoCodigo() {
+    console.log('Iniciando buscarUltimoCodigo');
     const codigosRef = db.collection("Códigos");
-    const querySnapshot = await codigosRef.orderBy("__name__", "desc").limit(1).get();
+    const querySnapshot = await codigosRef.get();
     if (querySnapshot.empty) {
       ultimoCodigo = "0018345-90.2024.8.16.0021";
       ultimoDiminuiu15 = true;
     } else {
-      const ultimoDoc = querySnapshot.docs[0].data();
-      ultimoCodigo = ultimoDoc.valor;
-      ultimoDiminuiu15 = ultimoDoc.diminuiu15;
+      // Ordenar pelo número inicial do código (parte antes do '-') em ordem decrescente
+      const codigos = querySnapshot.docs.map(doc => ({
+        valor: doc.data().valor,
+        diminuiu15: doc.data().diminuiu15
+      }));
+      codigos.sort((a, b) => {
+        const numA = parseInt(a.valor.split('-')[0], 10);
+        const numB = parseInt(b.valor.split('-')[0], 10);
+        return numB - numA;
+      });
+      ultimoCodigo = codigos[0].valor;
+      ultimoDiminuiu15 = codigos[0].diminuiu15;
     }
+    console.log('Atualizando ultimoCodigoSpan:', ultimoCodigo);
     ultimoCodigoSpan.textContent = ultimoCodigo;
     [proximoCodigo, proximoDiminuiu15] = gerarNovoCodigo(ultimoCodigo, ultimoDiminuiu15);
+    console.log('Atualizando proximoCodigoSpan:', proximoCodigo);
     proximoCodigoSpan.textContent = proximoCodigo;
+    console.log('Finalizando buscarUltimoCodigo');
   }
 
   // Função para mostrar mensagem
@@ -70,6 +83,22 @@ document.addEventListener('DOMContentLoaded', function() {
     mensagemDiv.textContent = msg;
     mensagemDiv.style.color = tipo === 'erro' ? '#dc2626' : '#2563eb';
     setTimeout(() => { mensagemDiv.textContent = ''; }, 3000);
+
+    // Mensagem flutuante no topo
+    const msgFloat = document.getElementById('mensagemFlutuante');
+    msgFloat.textContent = msg;
+    msgFloat.style.background = tipo === 'erro' ? '#dc2626' : '#22c55e';
+    msgFloat.style.display = 'block';
+    msgFloat.style.opacity = '1';
+    // Fade out após 4 segundos
+    setTimeout(() => {
+      msgFloat.style.transition = 'opacity 0.5s';
+      msgFloat.style.opacity = '0';
+      setTimeout(() => {
+        msgFloat.style.display = 'none';
+        msgFloat.style.transition = '';
+      }, 500);
+    }, 4000);
   }
 
   // Função para copiar texto
@@ -109,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Evento: Gerar próximo código
   btnGerar.addEventListener("click", async function() {
+    console.log('Clique em Gerar Próximo Código');
     if (btnGerar.disabled) return;
     btnGerar.disabled = true;
     try {
@@ -124,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mostrarMensagem('Primeiro código gerado!');
         await buscarUltimoCodigo();
         await atualizarHistorico();
+        console.log('Finalizou geração do primeiro código');
         return;
       }
       // Encontrar o maior número inicial
@@ -151,6 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mostrarMensagem('Código já gerado, aguarde o próximo!', 'erro');
         await buscarUltimoCodigo();
         await atualizarHistorico();
+        console.log('Código já existia, abortando geração');
         return;
       }
       // Salvar
@@ -161,6 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
       mostrarMensagem('Novo código gerado!');
       await buscarUltimoCodigo();
       await atualizarHistorico();
+      console.log('Finalizou geração de novo código');
     } catch (error) {
       console.error("Erro ao gerar código:", error);
       mostrarMensagem('Erro ao gerar o código.', 'erro');
@@ -300,6 +333,8 @@ document.addEventListener('DOMContentLoaded', function() {
         inserirManualBox.style.display = 'none';
         await buscarUltimoCodigo();
         await atualizarHistorico();
+        // Mensagem flutuante no topo
+        mostrarMensagem(`Novo código inserido: ${codigo} (decremento: ${diminui ? '15' : '18'})`, 'info');
       } catch (err) {
         mensagemInserirManual.textContent = 'Erro ao inserir!';
         mensagemInserirManual.style.color = '#dc2626';
