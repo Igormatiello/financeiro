@@ -138,6 +138,32 @@ button[title]:hover {
   margin-top: 10px;
 }
 
+#inserirManualBox {
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 14px 12px 10px 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+  margin-bottom: 18px;
+}
+#formInserirManual {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 0;
+}
+#formInserirManual input[type="text"] {
+  flex: 1 1 100%;
+  min-width: 220px;
+}
+#formInserirManual label {
+  font-size: 0.98em;
+  margin-right: 10px;
+}
+#mensagemInserirManual {
+  min-height: 22px;
+  margin-top: 6px;
+}
+
 @media (max-width: 600px) {
   .container {
     padding: 12px 4px;

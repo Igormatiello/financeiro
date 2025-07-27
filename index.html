@@ -30,6 +30,21 @@
     <div class="botoes">
       <button id="gerarBtn">Gerar Próximo Código</button>
       <button id="resetarBtn">Resetar Sequência</button>
+      <button id="abrirInserirManual">Inserir novo código manualmente</button>
+    </div>
+    <div id="inserirManualBox" style="display:none; margin-bottom:18px;">
+      <form id="formInserirManual">
+        <input type="text" id="codigoManual" placeholder="Novo código (ex: 0019000-99.2024.8.16.0021)" required style="width: 100%; margin-bottom: 8px;">
+        <label style="margin-right: 10px;">
+          <input type="radio" name="diminuiManual" value="15" checked> Próximo decremento: 15
+        </label>
+        <label>
+          <input type="radio" name="diminuiManual" value="18"> Próximo decremento: 18
+        </label>
+        <button type="submit" style="margin-left: 10px;">Salvar</button>
+        <button type="button" id="cancelarInserirManual" style="margin-left: 6px;">Cancelar</button>
+      </form>
+      <div class="mensagem" id="mensagemInserirManual"></div>
     </div>
     <div class="mensagem" id="mensagem"></div>
     <h2>Histórico dos Códigos</h2>

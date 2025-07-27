@@ -253,4 +253,57 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+
+  // --- INSERÇÃO MANUAL DE CÓDIGO ---
+  const btnAbrirInserirManual = document.getElementById('abrirInserirManual');
+  const inserirManualBox = document.getElementById('inserirManualBox');
+  const formInserirManual = document.getElementById('formInserirManual');
+  const cancelarInserirManual = document.getElementById('cancelarInserirManual');
+  const mensagemInserirManual = document.getElementById('mensagemInserirManual');
+
+  if (btnAbrirInserirManual) {
+    btnAbrirInserirManual.addEventListener('click', function() {
+      inserirManualBox.style.display = '';
+      mensagemInserirManual.textContent = '';
+      document.getElementById('codigoManual').value = '';
+    });
+  }
+  if (cancelarInserirManual) {
+    cancelarInserirManual.addEventListener('click', function() {
+      inserirManualBox.style.display = 'none';
+      mensagemInserirManual.textContent = '';
+    });
+  }
+  if (formInserirManual) {
+    formInserirManual.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const codigo = document.getElementById('codigoManual').value.trim();
+      const diminui = document.querySelector('input[name="diminuiManual"]:checked').value === '15';
+      if (!codigo.match(/^\d{7}-\d{2}\.\d{4}\.8\.16\.0021$/)) {
+        mensagemInserirManual.textContent = 'Formato inválido!';
+        mensagemInserirManual.style.color = '#dc2626';
+        return;
+      }
+      try {
+        const codigosRef = db.collection('Códigos');
+        // Verifica se já existe esse código
+        const snapshot = await codigosRef.where('valor', '==', codigo).get();
+        if (!snapshot.empty) {
+          mensagemInserirManual.textContent = 'Esse código já existe!';
+          mensagemInserirManual.style.color = '#dc2626';
+          return;
+        }
+        // Insere o novo código manualmente
+        await codigosRef.add({ valor: codigo, diminuiu15: diminui });
+        mensagemInserirManual.textContent = 'Novo código inserido!';
+        mensagemInserirManual.style.color = '#16a34a';
+        inserirManualBox.style.display = 'none';
+        await buscarUltimoCodigo();
+        await atualizarHistorico();
+      } catch (err) {
+        mensagemInserirManual.textContent = 'Erro ao inserir!';
+        mensagemInserirManual.style.color = '#dc2626';
+      }
+    });
+  }
 });
